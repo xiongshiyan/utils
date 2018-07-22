@@ -14,13 +14,13 @@ repositories {
 dependencies {
     compile 'com.jfinal:jfinal:2.2'
 
-    /*compile 'ch.qos.logback:logback-core:1.2.3'
+    compile 'ch.qos.logback:logback-core:1.2.3'
     compile 'ch.qos.logback:logback-classic:1.2.3'
     compile 'net.logstash.logback:logstash-logback-encoder:4.11'
     compile group: 'org.slf4j', name: 'log4j-over-slf4j', version: '1.7.25'
     compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.7.25'
     compile group: 'org.slf4j', name: 'jul-to-slf4j', version: '1.7.25'
-*/
+
     compile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
     compile group: 'cn.zytx.common', name: 'json-fastjson', version: '1.0'
 
