@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: cn.zytx.common:json-fastjson:1.0">
-    <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/cn/zytx/common/json-fastjson/1.0/json-fastjson-1.0.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
