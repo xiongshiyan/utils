@@ -1,6 +1,5 @@
 package top.jfunc.common.utils;
 
-import com.jfinal.plugin.activerecord.Page;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -15,8 +15,6 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import com.jfinal.kit.StrKit;
-
 /**
  * 该类来源于#hutool#
  * 
@@ -89,7 +87,7 @@ public final class ClassUtil{
      * @return 类集合
      */
     public static Set<Class<?>> scanPackage(String packageName, boolean inJar, ClassFilter classFilter){
-        if(StrKit.isBlank(packageName)){
+        if(StrUtil.isBlank(packageName)){
             packageName = "";
         }
         packageName = getWellFormedPackageName(packageName);
@@ -327,7 +325,7 @@ public final class ClassUtil{
             classPath += File.separator;
         }
         String path = file.getAbsolutePath();
-        if(StrKit.isBlank(packageName)){
+        if(StrUtil.isBlank(packageName)){
             path = removePrefix(path, classPath);
         }
         final String filePathWithDot = path.replace(File.separator, ".");

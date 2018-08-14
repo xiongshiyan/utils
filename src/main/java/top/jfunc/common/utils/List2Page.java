@@ -1,7 +1,5 @@
 package top.jfunc.common.utils;
 
-import com.jfinal.plugin.activerecord.Page;
-
 import java.util.ArrayList;
 import java.util.List;
 
