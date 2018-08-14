@@ -1,7 +1,8 @@
 package top.jfunc.common.converter;
 
-import cn.zytx.common.json.JsonObject;
-import cn.zytx.common.json.impl.JSONObject;
+
+import top.jfunc.json.JsonObject;
+import top.jfunc.json.impl.JSONObject;
 
 /**
  * Json String -> JavaBean
