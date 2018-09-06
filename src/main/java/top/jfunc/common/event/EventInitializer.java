@@ -183,7 +183,7 @@ public class EventInitializer {
             }
             if(l2Class.isAnnotationPresent(Listener.class)){
                 y = ((Listener)(l2Class.getAnnotation(Listener.class))).order();
-            }else if(l1 instanceof ListenerAttr){
+            }else if(l2 instanceof ListenerAttr){
                 y = ((ListenerAttr) l2).getOrder();
             }
             return Integer.compare(x,y);
