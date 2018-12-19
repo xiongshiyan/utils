@@ -6,7 +6,9 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.hamcrest.Matchers.equalTo;
 
@@ -80,6 +82,43 @@ public class Map2BeanTest {
         private BigInteger bigInteger;
         private JavaBean2 javaBean2;
         private JavaBean3 javaBean3;
+
+        private List list;
+        private Map map;
+        private Set set;
+        private String[] array;
+
+        public String[] getArray() {
+            return array;
+        }
+
+        public void setArray(String[] array) {
+            this.array = array;
+        }
+
+        public List getList() {
+            return list;
+        }
+
+        public void setList(List list) {
+            this.list = list;
+        }
+
+        public Map getMap() {
+            return map;
+        }
+
+        public void setMap(Map map) {
+            this.map = map;
+        }
+
+        public Set getSet() {
+            return set;
+        }
+
+        public void setSet(Set set) {
+            this.set = set;
+        }
 
         public static String getS() {
             return s;

@@ -64,6 +64,13 @@ public class Map2Bean {
      * 需要跳过static和final的
      */
     private static boolean accepted(Field field) {
+        Class<?> type = field.getType();
+        //因为这些数据结构无法赋值，所以排除掉
+        if(Map.class.isAssignableFrom(type)
+                || Collection.class.isAssignableFrom(type)
+                || type.isArray()){
+            return false;
+        }
         int mod = field.getModifiers();
         return !(Modifier.isStatic(mod) || Modifier.isFinal(mod));
     }
