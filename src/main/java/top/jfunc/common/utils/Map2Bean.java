@@ -24,8 +24,6 @@ public class Map2Bean {
      * @return JavaBean
      */
     public static  <T> T convert(Map<String,Object> map,Class<T> clazz){
-        Map<String, Object> tmp = _2CamelWith(map);
-
         try {
             final T instance = clazz.newInstance();
             //Field[] fields = clazz.getDeclaredFields();
@@ -36,20 +34,19 @@ public class Map2Bean {
                 String fieldName = field.getName();
                 Class<?> type = field.getType();
                 if(!BeanUtil.canSetValueDirectly(type)){
-                    BeanUtil.setValue(instance, field, convert(tmp, type));
+                    BeanUtil.setValue(instance, field, convert(map, type));
                 }else {
-                    Object value = tmp.get(fieldName);
+                    Object value = map.get(fieldName);
                     if(null == value){
+                        //尝试转换为下划线的方式再获取一次
+                        value = map.get(StrUtil.toUnderlineCase(fieldName));
                         //null没得必要设置
-                        continue;
+                        if(null == value){
+                            continue;
+                        }
+
                     }
                     BeanUtil.setValue(instance, field, value);
-                    /*map.forEach((k,v)->{
-                        String columnToField = StrKit._2Camel(k);
-                        if(fieldName.equals(columnToField)) {
-                            ObjectKit.setValue(instance, field, v);
-                        }
-                    });*/
                 }
             }
 
@@ -88,18 +85,4 @@ public class Map2Bean {
             parseAllFields(clazz.getSuperclass() , list);
         }
     }
-    /**
-     * 将map中的下划线转换为小驼峰key添加进去
-     */
-    private static Map<String, Object> _2CamelWith(Map<String, Object> map) {
-        final Map<String , Object> tmp = new LinkedHashMap<>(map);
-        map.forEach((k , v) ->{
-            if(k.contains("_")){
-                //原来的还是保留，万一有些Bean中字段有"_"呢 map.remove(k);
-                tmp.put(StrUtil.lowerFirst(StrUtil.toCamelCase(k)) , v);
-            }}
-        );
-        return tmp;
-    }
-
 }
