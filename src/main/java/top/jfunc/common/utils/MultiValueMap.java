@@ -17,6 +17,12 @@ public interface MultiValueMap<K, V> extends Map<K, List<V>> {
      * @return the first value for the specified key, or {@code null}
      */
     V getFirst(K key);
+    /**
+     * Return the last value for the given key.
+     * @param key the key
+     * @return the last value for the specified key, or {@code null}
+     */
+    V getLast(K key);
 
     /**
      * Add the given single value to the current list of values for the given key.

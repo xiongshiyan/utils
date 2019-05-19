@@ -93,4 +93,15 @@ public class ArrayListMultimap<K, V> {
         map.forEach(mapList::put);
         return mapList;
     }
+    /**
+     * 从MultiValueMap转换而来
+     */
+    public static <K1,V1> ArrayListMultimap<K1,V1> fromMap(MultiValueMap<K1,V1> map){
+        if(null == map){
+            return null;
+        }
+        ArrayListMultimap<K1, V1> mapList = new ArrayListMultimap<>(map.size());
+        map.forEach((k1, v1s) -> v1s.forEach(v1 -> mapList.put(k1 , v1)));
+        return mapList;
+    }
 }

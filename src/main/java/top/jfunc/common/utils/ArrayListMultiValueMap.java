@@ -72,6 +72,11 @@ public class ArrayListMultiValueMap<K, V> implements MultiValueMap<K, V>, Serial
 		List<V> values = this.targetMap.get(key);
 		return (values != null ? values.get(0) : null);
 	}
+	@Override
+	public V getLast(K key) {
+		List<V> values = this.targetMap.get(key);
+		return (values != null ? values.get(values.size()-1) : null);
+	}
 
     /**
      * 覆盖性的
@@ -214,6 +219,20 @@ public class ArrayListMultiValueMap<K, V> implements MultiValueMap<K, V>, Serial
 		}
 		MultiValueMap<K1, V1> mapList = new ArrayListMultiValueMap<>(map.size());
 		map.forEach(mapList::add);
+		return mapList;
+	}
+	/**
+	 * 从ArrayListMultimap转换而来
+	 */
+	public static <K1,V1> MultiValueMap<K1,V1> fromMap(ArrayListMultimap<K1,V1> map){
+		if(null == map){
+			return null;
+		}
+        Map<K1, List<V1>> listMap = map.getMap();
+
+        final MultiValueMap<K1, V1> mapList = new ArrayListMultiValueMap<>(listMap.size());
+
+        listMap.forEach((k1, v1s) -> v1s.forEach(v1 -> mapList.add(k1 , v1)));
 		return mapList;
 	}
 }

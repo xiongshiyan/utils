@@ -79,6 +79,11 @@ public class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializa
 		List<V> values = this.targetMap.get(key);
 		return (values != null ? values.get(0) : null);
 	}
+	@Override
+	public V getLast(K key) {
+		List<V> values = this.targetMap.get(key);
+		return (values != null ? values.get(values.size()-1) : null);
+	}
 
     /**
      * 覆盖性的
@@ -228,4 +233,19 @@ public class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializa
         map.forEach(mapList::add);
         return mapList;
     }
+
+	/**
+	 * 从ArrayListMultimap转换而来
+	 */
+	public static <K1,V1> MultiValueMap<K1,V1> fromMap(ArrayListMultimap<K1,V1> map){
+		if(null == map){
+			return null;
+		}
+		Map<K1, List<V1>> listMap = map.getMap();
+
+		MultiValueMap<K1, V1> mapList = new LinkedMultiValueMap<>(listMap.size());
+
+		listMap.forEach((k1, v1s) -> v1s.forEach(v1 -> mapList.add(k1 , v1)));
+		return mapList;
+	}
 }
