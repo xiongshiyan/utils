@@ -37,4 +37,19 @@ public class MapUtilTest {
         Assert.assertThat(mergeMap.size() , is(3));
         Assert.assertThat(mergeMap.get("xx") , is("cc"));
     }
+
+
+    @Test
+    public void testMergeMultiMap(){
+        MultiValueMap<String , String> first = new ArrayListMultiValueMap<>();
+        first.add("xx" , "xx");
+        first.add("yy" , "yy");
+        MultiValueMap<String , String> second = new ArrayListMultiValueMap<>();
+        second.add("xx" , "xx");
+        second.add("zz" , "zz");
+
+        MultiValueMap<String, String> mergeMap = MapUtil.mergeMap(first, second);
+        Assert.assertThat(mergeMap.size() , is(3));
+        Assert.assertThat(mergeMap.toString() , is("{xx=[xx, xx], yy=[yy], zz=[zz]}"));
+    }
 }
