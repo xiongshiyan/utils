@@ -9,6 +9,24 @@ public class MapUtil {
     private MapUtil(){}
 
     /**
+     * 判断一个map是否为空
+     * @param map map
+     * @return true if null or isEmpty
+     */
+    public static <K , V> boolean isEmpty(Map<K ,V> map){
+        return null == map || map.isEmpty();
+    }
+
+    /**
+     * 判断一个map是够非空
+     * @param map map
+     * @return true if not null and !isEmpty
+     */
+    public static <K , V> boolean notEmpty(Map<K ,V> map){
+        return !isEmpty(map);
+    }
+
+    /**
      * 合并两个Map，如果一个为{@code null}就返回另外一个
      * @param first 第一个
      * @param second 第二个

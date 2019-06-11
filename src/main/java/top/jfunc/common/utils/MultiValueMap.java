@@ -36,6 +36,25 @@ public interface MultiValueMap<K, V> extends Map<K, List<V>> {
     void add(K key, V value);
 
     /**
+     * Add the given value and values to the current list of values for the given key.
+     * @param key the key
+     * @param value the value to be added
+     * @param values the values to be added
+     * @since 1.8.2.3
+     */
+    void add(K key, V value , V... values);
+
+    /**
+     * Add a value to the first position in the current list of values for the given key.
+     * @param key   the key
+     * @param value the value to be added.
+     * @since 1.8.2.3
+     */
+    void addFirst(K key, V value);
+
+    default void addLast(K key, V value){add(key, value);}
+
+    /**
      * Set the given single value under the given key.
      * @param key the key
      * @param value the value to set

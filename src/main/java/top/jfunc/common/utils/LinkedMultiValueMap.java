@@ -1,12 +1,7 @@
 package top.jfunc.common.utils;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Simple implementation of {@link MultiValueMap} that wraps a {@link LinkedHashMap},
@@ -19,7 +14,7 @@ import java.util.Set;
  * @author Juergen Hoeller
  * @since 3.0
  */
-public class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializable, Cloneable {
+public class LinkedMultiValueMap<K, V> extends AbstractMultiValueMap<K , V> implements MultiValueMap<K, V>, Serializable, Cloneable {
 
 	private static final long serialVersionUID = 3801124242820219131L;
 
@@ -65,44 +60,43 @@ public class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializa
      */
 	@Override
 	public void add(K key, V value) {
-		List<V> values = this.targetMap.get(key);
+		List<V> vList = this.targetMap.get(key);
 
-		if (null == values) {
-			values = new LinkedList<>();
-			this.targetMap.put(key, values);
+		if (null == vList) {
+			vList = new LinkedList<>();
+			this.targetMap.put(key, vList);
 		}
-		values.add(value);
+		vList.add(value);
 	}
 
 	@Override
-	public V getFirst(K key) {
-		List<V> values = this.targetMap.get(key);
-		return (values != null ? values.get(0) : null);
-	}
-	@Override
-	public V getLast(K key) {
-		List<V> values = this.targetMap.get(key);
-		return (values != null ? values.get(values.size()-1) : null);
-	}
+	public void add(K key, V value, V... values) {
+		List<V> vList = this.targetMap.get(key);
 
-    /**
-     * 覆盖性的
-     * @param key the key
-     * @param value the value to set
-     */
-	@Override
-	public void set(K key, V value) {
-		List<V> values = new LinkedList<>();
-		values.add(value);
-		this.targetMap.put(key, values);
-	}
-
-	@Override
-	public void setAll(Map<K, V> values) {
-		for (Entry<K, V> entry : values.entrySet()) {
-			set(entry.getKey(), entry.getValue());
+		if (null == vList) {
+			vList = new LinkedList<>();
+			this.targetMap.put(key, vList);
+		}
+		//添加value
+		vList.add(value);
+		//添加values
+		if(null != values && values.length > 0){
+			vList.addAll(Arrays.asList(values));
 		}
 	}
+
+    @Override
+    public void addFirst(K key, V value) {
+        List<V> vList = this.targetMap.get(key);
+
+        if (null == vList) {
+            vList = new LinkedList<>();
+            this.targetMap.put(key, vList);
+        }
+        //添加value到第一个位置
+        vList.add(0 , value);
+    }
+
 
 	@Override
 	public Map<K, V> toSingleValueMap() {
@@ -117,69 +111,6 @@ public class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializa
     public Map<K, List<V>> getMap() {
         return this.targetMap;
     }
-
-	// Map implementation
-
-	@Override
-	public int size() {
-		return this.targetMap.size();
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return this.targetMap.isEmpty();
-	}
-
-	@Override
-	public boolean containsKey(Object key) {
-		return this.targetMap.containsKey(key);
-	}
-
-	@Override
-	public boolean containsValue(Object value) {
-		return this.targetMap.containsValue(value);
-	}
-
-	@Override
-	public List<V> get(Object key) {
-		return this.targetMap.get(key);
-	}
-
-	@Override
-	public List<V> put(K key, List<V> value) {
-		return this.targetMap.put(key, value);
-	}
-
-	@Override
-	public List<V> remove(Object key) {
-		return this.targetMap.remove(key);
-	}
-
-	@Override
-	public void putAll(Map<? extends K, ? extends List<V>> map) {
-		this.targetMap.putAll(map);
-	}
-
-	@Override
-	public void clear() {
-		this.targetMap.clear();
-	}
-
-	@Override
-	public Set<K> keySet() {
-		return this.targetMap.keySet();
-	}
-
-	@Override
-	public Collection<List<V>> values() {
-		return this.targetMap.values();
-	}
-
-	@Override
-	public Set<Entry<K, List<V>>> entrySet() {
-		return this.targetMap.entrySet();
-	}
-
 
 	/**
 	 * Create a deep copy of this Map.
@@ -205,21 +136,6 @@ public class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializa
 	@Override
 	public LinkedMultiValueMap<K, V> clone() {
 		return new LinkedMultiValueMap<>(this);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return this.targetMap.equals(obj);
-	}
-
-	@Override
-	public int hashCode() {
-		return this.targetMap.hashCode();
-	}
-
-	@Override
-	public String toString() {
-		return this.targetMap.toString();
 	}
 
     /**

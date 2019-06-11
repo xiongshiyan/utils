@@ -12,7 +12,7 @@ import java.util.*;
  *
  * @author xiongshiyan
  */
-public class ArrayListMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializable, Cloneable {
+public class ArrayListMultiValueMap<K, V> extends AbstractMultiValueMap<K , V> implements MultiValueMap<K, V>, Serializable, Cloneable {
 
 	private static final long serialVersionUID = 3801124242820219131L;
 
@@ -47,9 +47,7 @@ public class ArrayListMultiValueMap<K, V> implements MultiValueMap<K, V>, Serial
 		this.targetMap = new HashMap<>(otherMap);
 	}
 
-
-	// MultiValueMap implementation
-
+    // MultiValueMap implementation
     /**
      * //无论values存在不（不存在就新建一个），都加进去
      * @param key the key
@@ -58,119 +56,57 @@ public class ArrayListMultiValueMap<K, V> implements MultiValueMap<K, V>, Serial
      */
 	@Override
 	public void add(K key, V value) {
-		List<V> values = this.targetMap.get(key);
+		List<V> vList = this.targetMap.get(key);
 
-		if (null == values) {
-			values = new ArrayList<>(1);
-			this.targetMap.put(key, values);
+		if (null == vList) {
+			vList = new ArrayList<>(1);
+			this.targetMap.put(key, vList);
 		}
-		values.add(value);
+
+		vList.add(value);
 	}
 
 	@Override
-	public V getFirst(K key) {
-		List<V> values = this.targetMap.get(key);
-		return (values != null ? values.get(0) : null);
-	}
-	@Override
-	public V getLast(K key) {
-		List<V> values = this.targetMap.get(key);
-		return (values != null ? values.get(values.size()-1) : null);
-	}
+	public void add(K key, V value, V... values) {
+		List<V> vList = this.targetMap.get(key);
 
-    /**
-     * 覆盖性的
-     * @param key the key
-     * @param value the value to set
-     */
-	@Override
-	public void set(K key, V value) {
-		List<V> values = new ArrayList<>(1);
-		values.add(value);
-		this.targetMap.put(key, values);
-	}
-
-	@Override
-	public void setAll(Map<K, V> values) {
-		for (Entry<K, V> entry : values.entrySet()) {
-			set(entry.getKey(), entry.getValue());
+		if (null == vList) {
+			vList = new ArrayList<>(1);
+			this.targetMap.put(key, vList);
+		}
+		//添加value
+		vList.add(value);
+		//添加values
+		if(null != values && values.length > 0){
+			vList.addAll(Arrays.asList(values));
 		}
 	}
 
-	@Override
-	public Map<K, V> toSingleValueMap() {
-		Map<K, V> singleValueMap = new HashMap<>(this.targetMap.size());
-		for (Entry<K, List<V>> entry : this.targetMap.entrySet()) {
-			singleValueMap.put(entry.getKey(), entry.getValue().get(0));
-		}
-		return singleValueMap;
-	}
+    @Override
+    public void addFirst(K key, V value) {
+        List<V> vList = this.targetMap.get(key);
+
+        if (null == vList) {
+            vList = new ArrayList<>(1);
+            this.targetMap.put(key, vList);
+        }
+        //添加value到第一个位置
+        vList.add(0 , value);
+    }
+
+    @Override
+    public Map<K, V> toSingleValueMap() {
+        Map<K, List<V>> targetMap = getMap();
+        Map<K, V> singleValueMap = new HashMap<>(targetMap.size());
+        for (Entry<K, List<V>> entry : targetMap.entrySet()) {
+            singleValueMap.put(entry.getKey(), entry.getValue().get(0));
+        }
+        return singleValueMap;
+    }
 
 	@Override
 	public Map<K, List<V>> getMap() {
 		return this.targetMap;
-	}
-
-	// Map implementation
-
-	@Override
-	public int size() {
-		return this.targetMap.size();
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return this.targetMap.isEmpty();
-	}
-
-	@Override
-	public boolean containsKey(Object key) {
-		return this.targetMap.containsKey(key);
-	}
-
-	@Override
-	public boolean containsValue(Object value) {
-		return this.targetMap.containsValue(value);
-	}
-
-	@Override
-	public List<V> get(Object key) {
-		return this.targetMap.get(key);
-	}
-
-	@Override
-	public List<V> put(K key, List<V> value) {
-		return this.targetMap.put(key, value);
-	}
-
-	@Override
-	public List<V> remove(Object key) {
-		return this.targetMap.remove(key);
-	}
-
-	@Override
-	public void putAll(Map<? extends K, ? extends List<V>> map) {
-		this.targetMap.putAll(map);
-	}
-
-	@Override
-	public void clear() {
-		this.targetMap.clear();
-	}
-
-	@Override
-	public Set<K> keySet() {
-		return this.targetMap.keySet();
-	}
-
-	@Override
-	public Collection<List<V>> values() {
-		return this.targetMap.values();
-	}
-
-	@Override
-	public Set<Entry<K, List<V>>> entrySet() {
-		return this.targetMap.entrySet();
 	}
 
 
@@ -192,21 +128,6 @@ public class ArrayListMultiValueMap<K, V> implements MultiValueMap<K, V>, Serial
 	@Override
 	public ArrayListMultiValueMap<K, V> clone() {
 		return new ArrayListMultiValueMap<>(this);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return this.targetMap.equals(obj);
-	}
-
-	@Override
-	public int hashCode() {
-		return this.targetMap.hashCode();
-	}
-
-	@Override
-	public String toString() {
-		return this.targetMap.toString();
 	}
 
 
