@@ -401,7 +401,7 @@ public class IoUtil {
      * @param closeable 第一个
      * @param others 其他的
      */
-    public static void closeMany(Closeable closeable , Closeable... others){
+    public static void closeAll(Closeable closeable , Closeable... others){
         close(closeable);
         for (Closeable other : others) {
             close(other);
