@@ -407,4 +407,11 @@ public class IoUtil {
             close(other);
         }
     }
+
+    /**
+     * 一个空的流，主要为了防止空指针
+     */
+    public static InputStream emptyStream(){
+        return new ByteArrayInputStream(new byte[0]);
+    }
 }
