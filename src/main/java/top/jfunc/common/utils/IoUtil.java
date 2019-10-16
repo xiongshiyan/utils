@@ -355,11 +355,17 @@ public class IoUtil {
     
     
     public static InputStream getFileInputStream(String fileName){
-        InputStream inputStream = null;
         try {
-            inputStream = new FileInputStream(fileName);
-        }catch (Exception e){e.printStackTrace();return null;}
-        return inputStream;
+            return new FileInputStream(fileName);
+        }catch (Exception e){return null;}
+    }
+
+    public static OutputStream getFileOutputStream(String fileName){
+        try {
+            return new FileOutputStream(fileName);
+        }catch (Exception e){
+            return null;
+        }
     }
 
     /**
