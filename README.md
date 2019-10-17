@@ -6,15 +6,15 @@
 ### 使用方式
 下载本项目，gradle clean build得到的jar包引入工程即可。
 
-或者使用gradle或者maven引入，最新为common-utils:1.0
+或者使用gradle或者maven引入，最新为utils:1.8.3
 
 ```gradle
-compile ("top.jfunc.common:common-utils:${version}")
+compile ("top.jfunc.common:utils:${version}")
 ```
 ```maven
 <dependency>
     <groupId>top.jfunc.common</groupId>
-    <artifactId>common-utils</artifactId>
+    <artifactId>utils</artifactId>
     <version>${version}</version>
 </dependency>
 ```
