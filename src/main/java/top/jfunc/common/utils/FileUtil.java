@@ -1,5 +1,8 @@
 package top.jfunc.common.utils;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
  * 文件工具
  * @author 熊诗言
@@ -35,5 +38,29 @@ public class FileUtil {
             }
         }
         return filename;
+    }
+
+    public static File makeSureExistDir(String fileDir) throws IOException{
+        File file = new File(fileDir);
+        return makeSureExistDir(file);
+    }
+
+    public static File makeSureExistDir(File dirFile) throws IOException{
+        if(!dirFile.exists()){
+            dirFile.mkdirs();
+        }
+        return dirFile;
+    }
+
+    public static File makeSureExistFile(String fileName) throws IOException {
+        File file = new File(fileName);
+        return makeSureExistFile(file);
+    }
+
+    public static File makeSureExistFile(File file) throws IOException {
+        if(!file.exists()){
+            file.createNewFile();
+        }
+        return file;
     }
 }
