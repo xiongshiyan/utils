@@ -12,7 +12,6 @@ public class ThreadUtil {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 
