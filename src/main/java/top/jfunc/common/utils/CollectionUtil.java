@@ -21,10 +21,23 @@ public class CollectionUtil {
      * @param c 待判断集合
      * @return true if not null && size()>0
      */
-    public static <E> boolean notEmpty(Collection<E> c){
+    public static <E> boolean isNotEmpty(Collection<E> c){
         return !isEmpty(c);
     }
-
+    /**
+     * 检查某个值是否在集合中
+     */
+    public static <T> boolean targetInCollection(T target, Collection<T> collection) {
+        if(null == collection || collection.size() == 0){
+            return false;
+        }
+        for (T s : collection) {
+            if(s.equals(target)){
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * 合并两个集合
      */
