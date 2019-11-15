@@ -58,9 +58,36 @@ public class FileUtil {
     }
 
     public static File makeSureExistFile(File file) throws IOException {
-        if(!file.exists()){
-            file.createNewFile();
+        if(file.exists()){
+            return file;
         }
+        //先确保父目录存在
+        File parentFile = file.getParentFile();
+        makeSureExistDir(parentFile);
+
+        file.createNewFile();
         return file;
+    }
+
+    /**
+     * 连接目录名+文件名，自动处理分隔符
+     * @param dir 目录名
+     * @param fileName  文件名，可以带分隔符
+     * @return 连接后的文件名
+     */
+    public static String concat(String dir , String fileName){
+        if(StrUtil.isEmpty(fileName)){
+            throw new IllegalArgumentException("fileName 不允许为空");
+        }
+        if(StrUtil.isEmpty(dir)){
+            return fileName;
+        }
+        if(dir.endsWith(File.separator) && fileName.startsWith(File.separator)){
+            return dir + fileName.substring(1);
+        }
+        if(!dir.endsWith(File.separator) && !fileName.startsWith(File.separator)){
+            return dir + File.separator + fileName;
+        }
+        return dir + fileName;
     }
 }
