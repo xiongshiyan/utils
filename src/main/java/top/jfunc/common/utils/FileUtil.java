@@ -54,21 +54,20 @@ public class FileUtil {
         return dirFile;
     }
 
-    public static File makeSureExistFile(String fileName) throws IOException {
+    public static boolean makeSureExistFile(String fileName) throws IOException {
         File file = new File(fileName);
         return makeSureExistFile(file);
     }
 
-    public static File makeSureExistFile(File file) throws IOException {
+    public static boolean makeSureExistFile(File file) throws IOException {
         if(file.exists()){
-            return file;
+            return true;
         }
         //先确保父目录存在
         File parentFile = file.getParentFile();
         makeSureExistDir(parentFile);
 
-        file.createNewFile();
-        return file;
+        return file.createNewFile();
     }
 
     /**
