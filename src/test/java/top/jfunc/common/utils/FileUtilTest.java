@@ -16,13 +16,13 @@ public class FileUtilTest {
     public void testConcat(){
         if(OSUtil.isWindows()){
             Assert.assertThat(FileUtil.concat("/dd/tt" , "ff.txt") , is("/dd/tt\\ff.txt"));
-            Assert.assertThat(FileUtil.concat("/dd/tt/" , "ff.txt") , is("/dd/tt/\\ff.txt"));
-            Assert.assertThat(FileUtil.concat("/dd/tt" , "/ff.txt") , is("/dd/tt\\/ff.txt"));
-            Assert.assertThat(FileUtil.concat("/dd/tt/" , "/ff.txt") , is("/dd/tt/\\/ff.txt"));
+            Assert.assertThat(FileUtil.concat("/dd/tt/" , "ff.txt") , is("/dd/tt/ff.txt"));
+            Assert.assertThat(FileUtil.concat("/dd/tt" , "/ff.txt") , is("/dd/tt/ff.txt"));
+            Assert.assertThat(FileUtil.concat("/dd/tt/" , "/ff.txt") , is("/dd/tt/ff.txt"));
             Assert.assertThat(FileUtil.concat("" , "/ff.txt") , is("/ff.txt"));
         }else {
             Assert.assertThat(FileUtil.concat("/dd/tt" , "ff.txt") , is("/dd/tt/ff.txt"));
-            Assert.assertThat(FileUtil.concat("/dd/tt/" , "ff.txt") , is("/dd/tt//ff.txt"));
+            Assert.assertThat(FileUtil.concat("/dd/tt/" , "ff.txt") , is("/dd/tt/ff.txt"));
             Assert.assertThat(FileUtil.concat("/dd/tt" , "/ff.txt") , is("/dd/tt/ff.txt"));
             Assert.assertThat(FileUtil.concat("/dd/tt/" , "/ff.txt") , is("/dd/tt/ff.txt"));
             Assert.assertThat(FileUtil.concat("" , "/ff.txt") , is("/ff.txt"));
