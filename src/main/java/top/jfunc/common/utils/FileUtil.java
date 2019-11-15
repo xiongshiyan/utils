@@ -40,12 +40,12 @@ public class FileUtil {
         return filename;
     }
 
-    public static File makeSureExistDir(String fileDir) throws IOException{
+    public static File makeSureExistDir(String fileDir){
         File file = new File(fileDir);
         return makeSureExistDir(file);
     }
 
-    public static File makeSureExistDir(File dirFile) throws IOException{
+    public static File makeSureExistDir(File dirFile){
         if(!dirFile.exists()){
             dirFile.mkdirs();
         }
