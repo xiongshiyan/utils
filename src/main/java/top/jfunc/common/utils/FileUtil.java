@@ -8,6 +8,8 @@ import java.io.IOException;
  * @author 熊诗言
  */
 public class FileUtil {
+    public static final String SPLASH                = "/";
+    public static final String SPLASH_REVERSE        = "\\";
     private FileUtil(){}
 
     /**
@@ -82,12 +84,21 @@ public class FileUtil {
         if(StrUtil.isEmpty(dir)){
             return fileName;
         }
-        if(dir.endsWith(File.separator) && fileName.startsWith(File.separator)){
+        if(endsWithSplash(dir) && startsWithSplash(fileName)){
             return dir + fileName.substring(1);
         }
-        if(!dir.endsWith(File.separator) && !fileName.startsWith(File.separator)){
+        if(!endsWithSplash(dir) && !startsWithSplash(fileName)){
             return dir + File.separator + fileName;
         }
         return dir + fileName;
+    }
+
+    private static boolean endsWithSplash(String name){
+        //以/或者\结尾
+        return name.endsWith(SPLASH) || name.endsWith(SPLASH_REVERSE);
+    }
+    private static boolean startsWithSplash(String name){
+        //以/或者\开头
+        return name.startsWith(SPLASH) || name.startsWith(SPLASH_REVERSE);
     }
 }
