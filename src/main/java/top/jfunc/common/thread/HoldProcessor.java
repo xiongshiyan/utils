@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 使程序不退出，保证至少一个前台进程
- * &lt;a href="https://dubbo.apache.org/zh-cn/blog/spring-boot-dubbo-start-stop-analysis.html">spring-boot-dubbo-start-stop-analysis&lt;/a>
+ * @see <a href="https://dubbo.apache.org/zh-cn/blog/spring-boot-dubbo-start-stop-analysis.html" target="_blank">spring-boot-dubbo-start-stop-analysis</a>
  * @author xiongshiyan at 2019/10/16 , contact me with email yanshixiong@126.com or phone 15208384257
  */
 public class HoldProcessor {
