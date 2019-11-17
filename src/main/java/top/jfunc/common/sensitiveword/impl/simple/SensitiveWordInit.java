@@ -7,7 +7,7 @@ import java.util.Set;
 
 /**
  * 初始化敏感词库，将敏感词加入到HashMap中，构建DFA算法模型
- * @author  : 熊诗言 2017-04-29 02:02:02
+ * @author 熊诗言 2017-04-29 02:02:02
  */
 public class SensitiveWordInit{
     public static final String IS_END = "IS_END";
@@ -20,9 +20,8 @@ public class SensitiveWordInit{
     public SensitiveWordInit(){}
 
     /**
-     * @Author : 熊诗言
-     * @Date : 2017-04-29 02:02:02
-     * @version 1.0
+     * @since 2017-04-29 02:02:02
+     * @since 1.0
      */
     @SuppressWarnings("rawtypes")
     public Map initKeyWord(Set<String> keyWordSet){
@@ -39,11 +38,9 @@ public class SensitiveWordInit{
      * 1 } } } } 五 = { IS_END = 0 星 = { IS_END = 0 红 = { IS_END = 0 旗 = { IS_END = 1
      * } } } }
      * 
-     * @Author : 熊诗言
-     * @Date : 2017-04-29 02:02:02
-     * @param keyWordSet
-     *            敏感词库
-     * @version 1.0
+     * @since  : 2017-04-29 02:02:02
+     * @param keyWordSet 敏感词库
+     * @since  1.0
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private void addSensitiveWordToHashMap(Set<String> keyWordSet){

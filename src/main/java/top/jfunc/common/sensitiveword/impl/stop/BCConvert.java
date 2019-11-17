@@ -69,9 +69,6 @@ public class BCConvert{
 
     /**
      * 半角转换全角
-     * 
-     * @param src
-     * @return
      */
     public static int bj2qj(char src){
         int r = src;
@@ -109,9 +106,6 @@ public class BCConvert{
 
     /**
      * 全角转换半角
-     * 
-     * @param src
-     * @return
      */
     public static int qj2bj(char src){
         int r = src;

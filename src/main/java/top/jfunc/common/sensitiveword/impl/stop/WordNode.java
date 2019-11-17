@@ -26,8 +26,6 @@ public class WordNode{
     }
 
     /**
-     * 
-     * @param subNode
      * @return 就是传入的subNode
      */
     private WordNode addSubNode(final WordNode subNode){
@@ -40,9 +38,6 @@ public class WordNode{
 
     /**
      * 有就直接返回该子节点， 没有就创建添加并返回该子节点
-     * 
-     * @param value
-     * @return
      */
     public WordNode addIfNoExist(final int value, final boolean isLast){
         if(subNodes == null){

@@ -28,8 +28,6 @@ public class FilterSet{
     }
 
     /**
-     * 
-     * @param no
      * @return true:添加成功 false:原已包含
      */
     public boolean addAndNotify(final int no){
@@ -43,8 +41,6 @@ public class FilterSet{
     }
 
     /**
-     * 
-     * @param no
      * @return true:移除成功 false:原本就不包含
      */
     public boolean removeAndNotify(final int no){
@@ -73,9 +69,6 @@ public class FilterSet{
 
     /**
      * 不如直接循环调用contains
-     * 
-     * @param no
-     * @return
      */
     public boolean containsAll_ueslessWay(final int... no){
         long[] elements = new long[this.elements.length];
