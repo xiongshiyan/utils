@@ -354,13 +354,13 @@ public class IoUtil {
     }
     
     
-    public static InputStream getFileInputStream(String fileName){
+    public static FileInputStream getFileInputStream(String fileName){
         try {
             return new FileInputStream(fileName);
         }catch (Exception e){return null;}
     }
 
-    public static OutputStream getFileOutputStream(String fileName){
+    public static FileOutputStream getFileOutputStream(String fileName){
         try {
             return new FileOutputStream(fileName);
         }catch (Exception e){
@@ -395,7 +395,7 @@ public class IoUtil {
      * 关闭Closable
      * @param closeable 可关闭的
      */
-    public static void close(Closeable closeable){
+    public static void close(AutoCloseable closeable){
         if(null != closeable){
             try {
                 closeable.close();
@@ -407,9 +407,9 @@ public class IoUtil {
      * @param closeable 第一个
      * @param others 其他的
      */
-    public static void closeAll(Closeable closeable , Closeable... others){
+    public static void closeAll(AutoCloseable closeable , AutoCloseable... others){
         close(closeable);
-        for (Closeable other : others) {
+        for (AutoCloseable other : others) {
             close(other);
         }
     }
