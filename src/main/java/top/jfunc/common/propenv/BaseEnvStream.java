@@ -16,11 +16,8 @@ import java.io.InputStream;
  * @see EnvStreamFactory
  */
 public abstract class BaseEnvStream {
-
-
-
-    private static Logger logger = LoggerFactory.getLogger(BaseEnvStream.class);
-    private static String env = EnvUtil.env();
+    private static final Logger logger = LoggerFactory.getLogger(BaseEnvStream.class);
+    private static final String ENV = EnvUtil.env();
 
     /**
      * @param fileName 可以是 jdbc.properties 或者 config/jdbc.properties fileName必须带有扩展名
@@ -28,22 +25,22 @@ public abstract class BaseEnvStream {
      */
     public  InputStream loadEnvInputStream(String fileName){
         InputStream inputStream = null;
-        if(env == null){
+        if(ENV == null){
             logger.info("env = null , try to load " + fileName);
             inputStream = loadInputStream(fileName);//给什么路径就从什么路径找
             if(inputStream == null){
                 throw new IllegalArgumentException("Properties file not found : " + fileName );
             }
         }else {
-            String envFileName = FileUtil.getFileNameNoEx(fileName) + "-" + env + "." + FileUtil.getExtensionName(fileName);
-            logger.info("env = " + env + " , try to load " + envFileName);
+            String envFileName = FileUtil.getFileNameNoEx(fileName) + "-" + ENV + "." + FileUtil.getExtensionName(fileName);
+            logger.info("env = " + ENV + " , try to load " + envFileName);
             inputStream = loadInputStream(envFileName);//找${fileName}-${env}.ext
             if (inputStream == null) {
-                String envDirName = env + File.separator + fileName;
-                logger.info("env = " + env + " , try to load " + envDirName);
+                String envDirName = ENV + File.separator + fileName;
+                logger.info("env = " + ENV + " , try to load " + envDirName);
                 inputStream = loadInputStream(envDirName);//找${env}/${fileName}.ext
                 if(inputStream == null){
-                    logger.info("env = " + env + " , try to load " + fileName);
+                    logger.info("env = " + ENV + " , try to load " + fileName);
                     inputStream = loadInputStream(fileName);//给什么路径就从什么路径找
                     if(inputStream == null){
                         throw new IllegalArgumentException("Properties file not found : " + fileName + ", and " + envFileName + ",and " + envDirName);
@@ -56,6 +53,7 @@ public abstract class BaseEnvStream {
     }
 
     /**
+     * 子类具体实现获取inputStream的方法
      * @param fileName 文件名
      * @return 没找到就返回null
      */
