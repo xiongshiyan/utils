@@ -1,6 +1,7 @@
 package top.jfunc.common.sensitiveword.wordset;
 
 import top.jfunc.common.sensitiveword.FilterWordSet;
+import top.jfunc.common.utils.CharsetUtil;
 import top.jfunc.common.utils.IoUtil;
 
 import java.io.BufferedReader;
@@ -17,7 +18,7 @@ import java.util.Set;
 public class FileFilterWordSet implements FilterWordSet {
 
     private File file;
-    private String encoding = "UTF-8";
+    private String encoding = CharsetUtil.UTF_8;
 
     public FileFilterWordSet(File file){
         validFile(file);

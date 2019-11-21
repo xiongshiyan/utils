@@ -50,12 +50,7 @@ public final class ClassUtil{
      * @return 类集合
      */
     public static Set<Class<?>> scanPackageByAnnotation(String packageName, boolean inJar, final Class<? extends Annotation> annotationClass){
-        return scanPackage(packageName, inJar, new ClassFilter(){
-            @Override
-            public boolean accept(Class<?> clazz){
-                return clazz.isAnnotationPresent(annotationClass);
-            }
-        });
+        return scanPackage(packageName, inJar, clazz -> clazz.isAnnotationPresent(annotationClass));
     }
 
     /**
@@ -190,16 +185,10 @@ public final class ClassUtil{
     }
 
     // ---------------------------------------------------------------------------------------------------
-    // Private method start
     /**
      * 文件过滤器，过滤掉不需要的文件 只保留Class文件、目录和Jar
      */
-    private static FileFilter fileFilter = new FileFilter(){
-        @Override
-        public boolean accept(File pathname){
-            return isClass(pathname.getName()) || pathname.isDirectory() || isJarFile(pathname);
-        }
-    };
+    private static FileFilter fileFilter = pathname -> isClass(pathname.getName()) || pathname.isDirectory() || isJarFile(pathname);
 
     /**
      * 改变 com -> com. 避免在比较的时候把比如 completeTestSuite.class类扫描进去，如果没有"."
@@ -321,7 +310,7 @@ public final class ClassUtil{
      */
     private static void processClassFile(String classPath, File file, String packageName, ClassFilter classFilter,
             Set<Class<?>> classes){
-        if(false == classPath.endsWith(File.separator)){
+        if(!classPath.endsWith(File.separator)){
             classPath += File.separator;
         }
         String path = file.getAbsolutePath();
@@ -410,13 +399,12 @@ public final class ClassUtil{
     /**
      * @param file
      *            文件
-     * @return是否为Jar文件
+     * @return 是否为Jar文件
      */
     private static boolean isJarFile(File file){
         return file.getName().endsWith(JAR_FILE_EXT);
     }
     // ---------------------------------------------------------------------------------------------------
-    // Private method end
 
     /**
      * 类过滤器，用于过滤不需要加载的类
@@ -434,7 +422,7 @@ public final class ClassUtil{
      */
     private static String decodeUrl(String url){
         try{
-            return URLDecoder.decode(url, "UTF-8");
+            return URLDecoder.decode(url, CharsetUtil.UTF_8);
         }
         catch(java.io.UnsupportedEncodingException e){
             throw new RuntimeException(e);

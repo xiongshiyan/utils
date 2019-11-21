@@ -1,5 +1,7 @@
 package top.jfunc.common.servlet;
 
+import top.jfunc.common.utils.CharsetUtil;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +40,7 @@ public final class CookieUtils {
             for (int i = 0; i < cookieList.length; i++) {
                 if (cookieList[i].getName().equals(cookieName)) {
                     if (isDecoded) {
-                        retValue = URLDecoder.decode(cookieList[i].getValue(), "UTF-8");
+                        retValue = URLDecoder.decode(cookieList[i].getValue(), CharsetUtil.UTF_8);
                     } else {
                         retValue = cookieList[i].getValue();
                     }
@@ -46,7 +48,6 @@ public final class CookieUtils {
                 }
             }
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         }
         return retValue;
     }
@@ -135,7 +136,7 @@ public final class CookieUtils {
             if (cookieValue == null) {
                 cookieValue = "";
             } else if (isEncode) {
-                cookieValue = URLEncoder.encode(cookieValue, "UTF-8");
+                cookieValue = URLEncoder.encode(cookieValue, CharsetUtil.UTF_8);
             }
             Cookie cookie = new Cookie(cookieName, cookieValue);
             if (cookieMaxage > 0) {
@@ -182,7 +183,6 @@ public final class CookieUtils {
             cookie.setPath("/");
             response.addCookie(cookie);
         } catch (Exception e) {
-        	 e.printStackTrace();
         }
     }
 

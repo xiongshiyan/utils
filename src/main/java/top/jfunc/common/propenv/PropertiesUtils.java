@@ -1,5 +1,7 @@
 package top.jfunc.common.propenv;
 
+import top.jfunc.common.utils.CharsetUtil;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +20,7 @@ public class PropertiesUtils {
      * @see #use(String, String)
      */
     public static Prop use(String fileName) {
-        return use(fileName, "UTF-8");
+        return use(fileName, CharsetUtil.UTF_8);
     }
 
     /**

@@ -1,5 +1,7 @@
 package top.jfunc.common.propenv;
 
+import top.jfunc.common.utils.CharsetUtil;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,7 +17,7 @@ public class Prop{
         private Properties properties;
 
         public Prop(String fileName) {
-            this(fileName, "UTF-8");
+            this(fileName, CharsetUtil.UTF_8);
         }
 
         public Prop(String fileName, String encoding) {
