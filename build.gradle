@@ -1,4 +1,4 @@
-def VERSION = '1.8.3.1'
+def VERSION = '1.8.3.2'
 def ARTIFACT_ID = 'utils'
 def GROUP_ID = 'top.jfunc.common'
 def TYPE = 'jar'
