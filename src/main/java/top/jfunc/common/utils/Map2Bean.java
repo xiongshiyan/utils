@@ -3,7 +3,6 @@ package top.jfunc.common.utils;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * 将查询结果 map 封装成对应的javaBean，支持级联 ，但是属性不能重复
@@ -28,7 +27,7 @@ public class Map2Bean {
             final T instance = clazz.newInstance();
             //Field[] fields = clazz.getDeclaredFields();
             List<Field> fields = new ArrayList<>();
-            parseAllFields(clazz , fields);
+            BeanUtil.parseAllFields(clazz , fields , Map2Bean::accepted);
 
             for (Field field : fields) {
                 String fieldName = field.getName();
@@ -52,7 +51,6 @@ public class Map2Bean {
 
             return instance;
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
@@ -70,19 +68,5 @@ public class Map2Bean {
         }
         int mod = field.getModifiers();
         return !(Modifier.isStatic(mod) || Modifier.isFinal(mod));
-    }
-
-    /**
-     * 递归获取某个类的所有的属性
-     * getDeclaredFields 获取某个类的所有的字段，包括私有的，但是不包括父类的
-     * getFields 获得某个类的所有的公共（public）的字段，包括父类中的字段
-     */
-    private static void parseAllFields(Class<?> clazz , List<Field> list){
-        if(clazz != Object.class){
-            Field[] fields = clazz.getDeclaredFields();
-            list.addAll(Arrays.stream(fields).filter(Map2Bean::accepted)
-                    .collect(Collectors.toList()));
-            parseAllFields(clazz.getSuperclass() , list);
-        }
     }
 }

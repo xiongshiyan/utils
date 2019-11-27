@@ -4,6 +4,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * 实体工具类
@@ -40,15 +44,39 @@ public class BeanUtil{
         try {
             Class<?> clazz = o.getClass();
             Method getMethod = clazz.getMethod(StrUtil.genGetter(propertyName));
-            Object ret = getMethod.invoke(o);
-            return ret;
+            return getMethod.invoke(o);
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return null;
     }
 
+    /**
+     * 递归获取某个类的所有的属性，包括其父类的
+     * getDeclaredFields 获取某个类的所有的字段，包括私有的，但是不包括父类的
+     * getFields 获得某个类的所有的公共（public）的字段，包括父类中的字段
+     * @param clazz class
+     * @param list 传入一个list，接收field
+     * @param predicate 过滤器
+     */
+    public static void parseAllFields(Class<?> clazz , List<Field> list , Predicate<Field> predicate){
+        if(clazz == Object.class){
+            return;
+        }
 
+        Field[] fields = clazz.getDeclaredFields();
+        //无则不过滤，有则过滤
+        if(null == predicate){
+            list.addAll(Arrays.stream(fields)
+                    .collect(Collectors.toList()));
+        }else {
+            list.addAll(Arrays.stream(fields).filter(predicate::test)
+                    .collect(Collectors.toList()));
+        }
+        parseAllFields(clazz.getSuperclass() , list , predicate);
+    }
+    public static void parseAllFields(Class<?> clazz , List<Field> list){
+        parseAllFields(clazz, list , null);
+    }
 
 
     public static boolean canSetValueDirectly(Class<?> clazz){
@@ -67,7 +95,6 @@ public class BeanUtil{
             v = compatibleValue(v , field.getType());
             field.set(instance,v);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 
@@ -135,18 +162,6 @@ public class BeanUtil{
         if(toClazz == String.class){
             return value.toString();
         }
-
-        /*if(toClazz == java.util.Date.class){
-            if(value instanceof String){
-                try {
-                    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(value.toString());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }else if(value instanceof Number){
-                return new Date(((Number) value).longValue());
-            }
-        }*/
 
         return value;
     }
