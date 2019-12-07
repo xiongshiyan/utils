@@ -1,6 +1,5 @@
 package top.jfunc.common.utils;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -26,17 +25,24 @@ public class ExceptionUtil {
             pw.flush();
             sw.flush();
         } finally {
-            if (sw != null) {
-                try {
-                    sw.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-            if (pw != null) {
-                pw.close();
-            }
+            IoUtil.close(sw);
+            IoUtil.close(pw);
         }
         return sw.toString();
+    }
+
+
+    /**
+     * 一直往上找，找到根原因
+     */
+    public static Throwable getRootThrowable(Throwable throwable){
+        Throwable t = throwable;
+        Throwable temp = throwable;
+        while (null != t){
+            //记录最后不为空的异常
+            temp = t;
+            t = t.getCause();
+        }
+        return temp;
     }
 }
