@@ -3,10 +3,7 @@ package top.jfunc.common.event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import top.jfunc.common.event.core.*;
-import top.jfunc.common.utils.ArrayListMultimap;
-import top.jfunc.common.utils.BeanUtil;
-import top.jfunc.common.utils.ClassUtil;
-import top.jfunc.common.utils.ThreadFactoryBuilder;
+import top.jfunc.common.utils.*;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -30,7 +27,7 @@ public class EventInitializer {
     /** 线程池 */
     private static ExecutorService                              pool        = null;
     /** 重复key的map，使用监听的type，取出所有的监听器 */
-    private static ArrayListMultimap<EventType, ListenerHelper> map         = null;
+    private static MultiValueMap<EventType, ListenerHelper>     map         = null;
     /** 默认不扫描jar包 */
     private boolean                                             scanJar     = false;
     /** 默认扫描所有的包 */
@@ -69,7 +66,7 @@ public class EventInitializer {
         ThreadFactory factory = ThreadFactoryBuilder.create().setNameFormat("event-pool-%d").setDaemon(true).build();
         pool = new ThreadPoolExecutor(nThreads.length == 0 || nThreads[0] < 1 ? 5 : nThreads[0],
                 100, 0L, TimeUnit.SECONDS,
-                new LinkedBlockingQueue<Runnable>(512), factory, new ThreadPoolExecutor.CallerRunsPolicy());
+                new LinkedBlockingQueue<>(512), factory, new ThreadPoolExecutor.CallerRunsPolicy());
         return this;
     }
 
@@ -139,7 +136,7 @@ public class EventInitializer {
         sortListeners(listeners);
 
         // 重复key的map，使用监听的type，取出所有的监听器
-        map = new ArrayListMultimap<>();
+        map = new ArrayListMultiValueMap<>();
 
         for(ApplicationListener listener : listeners){
 
@@ -159,7 +156,7 @@ public class EventInitializer {
             // 获取监听器上的泛型信息
             Type type = ((ParameterizedType)clazz.getGenericInterfaces()[0]).getActualTypeArguments()[0];
             EventType eventType = new EventType(tag, type);
-            map.put(eventType, new ListenerHelper(listener, enableAsync));
+            map.add(eventType, new ListenerHelper(listener, enableAsync));
 
         }
         StringBuilder builder = new StringBuilder("一共有 ").append(listeners.size()).append(" 个监听器:\r\n");

@@ -3,7 +3,7 @@ package top.jfunc.common.event;
 import top.jfunc.common.event.core.ApplicationEvent;
 import top.jfunc.common.event.core.EventType;
 import top.jfunc.common.event.core.ListenerHelper;
-import top.jfunc.common.utils.ArrayListMultimap;
+import top.jfunc.common.utils.MultiValueMap;
 
 import java.util.Collection;
 import java.util.concurrent.ExecutorService;
@@ -15,10 +15,10 @@ import java.util.concurrent.ExecutorService;
  *         2015年4月26日下午9:58:53
  */
 public class EventKit{
-    private static ArrayListMultimap<EventType, ListenerHelper> map;
+    private static MultiValueMap<EventType, ListenerHelper> map;
     private static ExecutorService                              pool;
 
-    static void init(ArrayListMultimap<EventType, ListenerHelper> map, ExecutorService pool){
+    static void init(MultiValueMap<EventType, ListenerHelper> map, ExecutorService pool){
         EventKit.map = map;
         EventKit.pool = pool;
     }
