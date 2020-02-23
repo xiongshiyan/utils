@@ -8,8 +8,6 @@ import java.io.IOException;
  * @author 熊诗言
  */
 public class FileUtil {
-    public static final String SPLASH                = "/";
-    public static final String SPLASH_REVERSE        = "\\";
     private FileUtil(){}
 
     /**
@@ -42,16 +40,16 @@ public class FileUtil {
         return filename;
     }
 
-    public static File makeSureExistDir(String fileDir){
+    public static boolean makeSureExistDir(String fileDir){
         File file = new File(fileDir);
         return makeSureExistDir(file);
     }
 
-    public static File makeSureExistDir(File dirFile){
+    public static boolean makeSureExistDir(File dirFile){
         if(!dirFile.exists()){
-            dirFile.mkdirs();
+            return dirFile.mkdirs();
         }
-        return dirFile;
+        return true;
     }
 
     public static boolean makeSureExistFile(String fileName) throws IOException {
@@ -94,10 +92,10 @@ public class FileUtil {
 
     private static boolean endsWithSplash(String name){
         //以/或者\结尾
-        return name.endsWith(SPLASH) || name.endsWith(SPLASH_REVERSE);
+        return name.endsWith(StrUtil.SLASH) || name.endsWith(StrUtil.BACKSLASH);
     }
     private static boolean startsWithSplash(String name){
         //以/或者\开头
-        return name.startsWith(SPLASH) || name.startsWith(SPLASH_REVERSE);
+        return name.startsWith(StrUtil.SLASH) || name.startsWith(StrUtil.BACKSLASH);
     }
 }

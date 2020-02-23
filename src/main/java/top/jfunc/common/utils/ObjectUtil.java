@@ -1,6 +1,5 @@
 package top.jfunc.common.utils;
-import java.io.ByteArrayInputStream;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.util.*;
 
@@ -41,7 +40,7 @@ public class ObjectUtil {
 	 * @since 3.0.7
 	 */
 	public static boolean notEqual(Object obj1, Object obj2) {
-		return false == equal(obj1, obj2);
+		return !equal(obj1, obj2);
 	}
 
 	/**
@@ -91,7 +90,7 @@ public class ObjectUtil {
 			}
 			return count;
 		}
-		if (obj.getClass().isArray() == true) {
+		if (obj.getClass().isArray()) {
 			return Array.getLength(obj);
 		}
 		return -1;
@@ -150,7 +149,7 @@ public class ObjectUtil {
 			}
 			return false;
 		}
-		if (obj.getClass().isArray() == true) {
+		if (obj.getClass().isArray()) {
 			int len = Array.getLength(obj);
 			for (int i = 0; i < len; i++) {
 				Object o = Array.get(obj, i);
@@ -202,24 +201,83 @@ public class ObjectUtil {
 	public static <T> T defaultIfNull(final T object, final T defaultValue) {
 		return (null != object) ? object : defaultValue;
 	}
-
 	/**
-	 * 反序列化<br>
-	 * 对象必须实现Serializable接口
-	 * 
-	 * @param <T> 对象类型
-	 * @param bytes 反序列化的字节码
-	 * @return 反序列化后的对象
+	 * 对象Clone
+	 * @see https://blog.csdn.net/xxssyyyyssxx/article/details/104365036
+	 * 保证实现类重写了{@link Object#clone()}方法
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T unserialize(byte[] bytes) {
-		ObjectInputStream ois = null;
+	public static <T extends Cloneable> T clone(T t){
 		try {
-			ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-			ois = new ObjectInputStream(bais);
-			return (T) ois.readObject();
+			/**
+			 * clone()是Object类的方法，务必保证clone的对象类重写了该方法，并且方法置为了public
+			 */
+			java.lang.reflect.Method method = t.getClass().getMethod("clone");
+			method.setAccessible(true);
+			return (T)method.invoke(t);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("不支持clone,请检查是否重写clone并且实现Cloneable接口" , e);
+		}
+	}
+
+
+	/**
+	 * Deep clone an {@code Object} using serialization.
+	 * <p>This is many times slower than writing clone methods by hand
+	 * on all objects in your object graph. However, for complex object
+	 * graphs, or for those that don't support deep cloning this can
+	 * be a simple alternative implementation. Of course all the objects
+	 * must be {@code Serializable}.</p>
+	 *
+	 * @param <T>    the type of the object involved
+	 * @param object the {@code Serializable} object to clone
+	 * @return the cloned object
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T extends Serializable> T cloneBySerialization(final T object) {
+		if (object == null) {
+			return null;
+		}
+		final byte[] objectData = serialize(object);
+		return (T) deserialize(objectData);
+	}
+
+	/**
+	 * Serialize the given object to a byte array.
+	 *
+	 * @param object the object to serialize
+	 * @return an array of bytes representing the object in a portable fashion
+	 */
+	public static byte[] serialize(Object object) {
+		if (object == null) {
+			return null;
+		}
+		ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
+		try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+			oos.writeObject(object);
+			oos.flush();
+		} catch (IOException ex) {
+			throw new IllegalArgumentException("Failed to serialize object of type: " + object.getClass(), ex);
+		}
+		return baos.toByteArray();
+	}
+
+	/**
+	 * Deserialize the byte array into an object.
+	 *
+	 * @param bytes a serialized object
+	 * @return the result of deserializing the bytes
+	 */
+	public static Object deserialize(byte[] bytes) {
+		if (bytes == null) {
+			return null;
+		}
+		try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes))) {
+			return ois.readObject();
+		} catch (IOException ex) {
+			throw new IllegalArgumentException("Failed to deserialize object", ex);
+		} catch (ClassNotFoundException ex) {
+			throw new IllegalStateException("Failed to deserialize object type", ex);
 		}
 	}
 

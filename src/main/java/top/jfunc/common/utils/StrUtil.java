@@ -36,6 +36,9 @@ public class StrUtil {
 	public static final char C_BRACKET_END = ']';
 	public static final char C_COLON = ':';
 
+	/**
+     * 一些常用字符串
+     */
 	public static final String SPACE = " ";
 	public static final String TAB = "	";
 	public static final String DOT = ".";
@@ -53,6 +56,19 @@ public class StrUtil {
 	public static final String BRACKET_START = "[";
 	public static final String BRACKET_END = "]";
 	public static final String COLON = ":";
+
+	public static final String BLANK         = "";
+	public static final String QUESTION_MARK = "?";
+	public static final String AND           = "&";
+	public static final String EQUALS        = "=";
+	public static final String SEMICOLON     = ";";
+	public static final String COLON_SPLASH  = "://";
+	public static final String HTTP          = "http";
+	public static final String HTTPS         = "https";
+	public static final String TWO_HYPHENS   = "--";
+	public static final String HTTP_PREFIX   = HTTP + COLON_SPLASH;
+	public static final String HTTPS_PREFIX  = HTTPS + COLON_SPLASH;
+
 
 	public static final String HTML_NBSP = "&nbsp;";
 	public static final String HTML_AMP = "&amp";
@@ -81,7 +97,7 @@ public class StrUtil {
 
 		for (int i = 0; i < length; i++) {
 			// 只要有一个非空字符即为非空字符串
-			if (false == NumberUtil.isBlankChar(str.charAt(i))) {
+			if (!NumberUtil.isBlankChar(str.charAt(i))) {
 				return false;
 			}
 		}
@@ -161,7 +177,7 @@ public class StrUtil {
 	 * @return 是否为非空
 	 */
 	public static boolean isNotEmpty(CharSequence str) {
-		return false == isEmpty(str);
+		return !isEmpty(str);
 	}
 
 	/**
@@ -948,7 +964,7 @@ public class StrUtil {
 
 		final String str2 = str.toString();
 		final String prefix2 = prefix.toString();
-		if (false == str2.startsWith(prefix2)) {
+		if (!str2.startsWith(prefix2)) {
 			return prefix2.concat(str2);
 		}
 		return str2;
@@ -968,7 +984,7 @@ public class StrUtil {
 
 		final String str2 = str.toString();
 		final String suffix2 = suffix.toString();
-		if (false == str2.endsWith(suffix2)) {
+		if (!str2.endsWith(suffix2)) {
 			return str2.concat(suffix2);
 		}
 		return str2;
@@ -990,7 +1006,7 @@ public class StrUtil {
 		char c;
 		for (int i = 0; i < len; i++) {
 			c = str.charAt(i);
-			if (false == NumberUtil.isBlankChar(c)) {
+			if (!NumberUtil.isBlankChar(c)) {
 				sb.append(c);
 			}
 		}
@@ -1803,7 +1819,7 @@ public class StrUtil {
 		Byte dataByte;
 		for (int i = 0; i < data.length; i++) {
 			dataByte = data[i];
-			bytes[i] = (null == dataByte) ? -1 : dataByte.byteValue();
+			bytes[i] = (null == dataByte) ? -1 : dataByte;
 		}
 
 		return str(bytes, charset);
@@ -1989,13 +2005,13 @@ public class StrUtil {
 			len += str.length();
 		}
 		StringBuilder sb = new StringBuilder(len);
-		if (isNotEmpty(prefix) && false == startWith(str, prefix)) {
+		if (isNotEmpty(prefix) && !startWith(str, prefix)) {
 			sb.append(prefix);
 		}
 		if (isNotEmpty(str)) {
 			sb.append(str);
 		}
-		if (isNotEmpty(suffix) && false == endWith(str, suffix)) {
+		if (isNotEmpty(suffix) && !endWith(str, suffix)) {
 			sb.append(suffix);
 		}
 		return sb.toString();
@@ -2048,11 +2064,7 @@ public class StrUtil {
 	 * @return 是否被包装
 	 */
 	public static boolean isWrap(CharSequence str, char prefixChar, char suffixChar) {
-		if (null == str) {
-			return false;
-		}
-
-		return str.charAt(0) == prefixChar && str.charAt(str.length() - 1) == suffixChar;
+		return null != str && str.charAt(0) == prefixChar && str.charAt(str.length() - 1) == suffixChar;
 	}
 
 	/**

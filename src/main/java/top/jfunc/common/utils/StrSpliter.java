@@ -347,7 +347,7 @@ public class StrSpliter {
 		if(isTrim){
 			part = part.trim();
 		}
-		if(false == ignoreEmpty || false == part.isEmpty()){
+		if(!ignoreEmpty || !part.isEmpty()){
 			list.add(part);
 		}
 		return list;

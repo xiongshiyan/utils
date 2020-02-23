@@ -151,7 +151,7 @@ public class ArrayUtil {
 	 * @return 是否为非空
 	 */
 	public static boolean isNotEmpty(final Object array) {
-		return false == isEmpty((Object) array);
+		return !isEmpty(array);
 	}
 
 	/**

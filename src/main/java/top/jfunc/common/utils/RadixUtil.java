@@ -22,7 +22,7 @@ public class RadixUtil {
      * @return 十六进制字符串 小写
      */
     public static String toHexLower(byte[] b){
-        StringBuffer hexString = new StringBuffer();
+        StringBuilder hexString = new StringBuilder();
         for(int i = 0; i < b.length; i++){
             String plainText = Integer.toHexString(0xff & b[i]);
             if(plainText.length() < 2){

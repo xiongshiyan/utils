@@ -719,8 +719,7 @@ public class NumberUtil {
 			set.add(begin + ran.nextInt(end - begin));
 		}
 
-		Integer[] ranArr = set.toArray(new Integer[size]);
-		return ranArr;
+		return set.toArray(new Integer[size]);
 	}
 
 	// ------------------------------------------------------------------------------------------- range
