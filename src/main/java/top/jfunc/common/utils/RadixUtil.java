@@ -1,11 +1,30 @@
 package top.jfunc.common.utils;
 
+import java.math.BigInteger;
+
 /**
  * 进制转换类
  * @author 熊诗言2017/11/28
  */
 public class RadixUtil {
     private RadixUtil(){}
+
+    /**
+     * 进制转换
+     * @param src 原数字串
+     * @param radixFrom 数字串的进制
+     * @param radixTo 要转换的进制
+     * @return 转换后的字符串
+     * @see Character#MIN_RADIX
+     * @see Character#MAX_RADIX
+     * @see Integer#toString(int, int)
+     * @see Integer#parseInt(String, int)
+     * @see Integer#valueOf(String, int)
+     */
+    public static String radix(String src , int radixFrom , int radixTo){
+        BigInteger bigInteger = new BigInteger(src, radixFrom);
+        return bigInteger.toString(radixTo);
+    }
 
     /**
      * 字节数组转换为16进制字符串, 大写
