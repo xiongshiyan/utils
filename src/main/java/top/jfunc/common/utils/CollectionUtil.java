@@ -1,6 +1,9 @@
 package top.jfunc.common.utils;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.RandomAccess;
 
 /**
  * @author xiongshiyan at 2019/5/21 , contact me with email yanshixiong@126.com or phone 15208384257
@@ -28,11 +31,29 @@ public class CollectionUtil {
      * 检查某个值是否在集合中
      */
     public static <T> boolean targetInCollection(T target, Collection<T> collection) {
-        if(null == collection || collection.size() == 0){
+        if(isEmpty(collection)){
             return false;
         }
+
+        /**
+         * 如果是类似ArrayList这种可以随机访问的，使用这种方式提高效率
+         * @see List
+         * @see RandomAccess
+         */
+        if(collection instanceof List && collection instanceof RandomAccess){
+            int size = collection.size();
+            List<T> list = (List<T>) collection;
+            for (int i = 0; i < size; i++) {
+                if(Objects.equals(list.get(i) , target)){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        //普通的集合遍历
         for (T s : collection) {
-            if(s.equals(target)){
+            if(Objects.equals(s , target)){
                 return true;
             }
         }
