@@ -14,7 +14,7 @@ public class MapInfoHolder<K,V> extends InfoHolder<Map<K,V>> {
      * @param key key
      * @param value value
      */
-    public void add(K key ,V value){
+    public synchronized void add(K key ,V value){
         Map<K, V> map = holder.get();
         if(null == map){
             map = new HashMap<>();
@@ -27,7 +27,7 @@ public class MapInfoHolder<K,V> extends InfoHolder<Map<K,V>> {
      * 根据key获取当前线程的值
      * @param key key
      */
-    public V get(K key){
+    public synchronized V get(K key){
         Map<K, V> map = holder.get();
         if (null == map){
             return null;
@@ -35,11 +35,22 @@ public class MapInfoHolder<K,V> extends InfoHolder<Map<K,V>> {
         return map.get(key);
     }
 
-    public void remove(K key){
+    public synchronized void remove(K key){
         Map<K, V> map = holder.get();
         if (null == map){
             return ;
         }
         map.remove(key);
+    }
+
+    @Override
+    public synchronized void clear(){
+        Map<K, V> map = holder.get();
+        if (null == map){
+            return ;
+        }
+        map.clear();
+
+        super.clear();
     }
 }
