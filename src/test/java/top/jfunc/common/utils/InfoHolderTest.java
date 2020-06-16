@@ -1,5 +1,6 @@
 package top.jfunc.common.utils;
 
+import top.jfunc.common.thread.ThreadUtil;
 import top.jfunc.common.utils.local.MapInfoHolder;
 import top.jfunc.common.utils.local.NormalInfoHolderUtil;
 import top.jfunc.common.utils.local.StringMapInfoHolderUtil;
@@ -63,5 +64,54 @@ public class InfoHolderTest {
             String s1 = NormalInfoHolderUtil.get();
             Assert.assertNull(s1);
         });
+    }
+
+    public static final ThreadLocal<String> t = ThreadLocal.withInitial(()->"xx");
+    @SuppressWarnings("unchecked")
+    public static final ThreadLocal<String> it = new InheritableThreadLocal(){
+        @Override
+        protected Object initialValue() {
+            return "xx";
+        }
+    };
+
+    /**
+     *
+     11111
+     Thread[Thread-0,5,main]xx     不能拿到父线程设置的值
+     Thread[Thread-0,5,main]22222  获取到自己设置的值
+     11111                         父线程拿不到子线程设置的值
+     */
+    @Test
+    public void testThreadLocal(){
+        print(t);
+    }
+
+    /**
+     *
+     11111
+     Thread[Thread-0,5,main]11111  能拿到父线程设置的值
+     Thread[Thread-0,5,main]22222  获取到自己设置的值
+     11111                         父线程拿不到子线程设置的值
+     */
+    @Test
+    public void testInheritableThreadLocal(){
+        print(it);
+    }
+
+    private void print(ThreadLocal<String> t){
+        t.set("11111");
+        System.out.println(t.get());
+        new Thread(){
+            @Override
+            public void run() {
+                System.out.println(Thread.currentThread() + t.get());
+                t.set("22222");
+                System.out.println(Thread.currentThread() + t.get());
+            }
+        }.start();
+
+        ThreadUtil.sleeps(2);
+        System.out.println(t.get());
     }
 }
