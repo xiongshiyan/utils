@@ -27,7 +27,7 @@ public class IpUtil {
     private static final String X_FORWARDED_FOR    = "X-FORWARDED-FOR";
     private static final String[] PROXY_IP_HEADERS = {"X-Real-IP" , "Proxy-Client-IP" , "WL-Proxy-Client-IP" , "HTTP_CLIENT_IP" , "HTTP_X_FORWARDED_FOR"};
 
-    public static String getClientIp(IpInfoGetter request) {
+    public static String getClientIp(HeaderGetter request , RemoteAddressGetter remoteAddressGetter) {
         String ip = request.getHeader(X_FORWARDED_FOR);
         if (StrUtil.isNotEmpty(ip) && !UN_KNOWN.equalsIgnoreCase(ip)) {
             // 多次反向代理后会有多个ip值，第一个ip才是真实ip
@@ -43,7 +43,9 @@ public class IpUtil {
         }
 
         if (StrUtil.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
+            if(null != remoteAddressGetter){
+                ip = remoteAddressGetter.getRemoteAddress();
+            }
         }
         return ip;
     }
@@ -52,7 +54,8 @@ public class IpUtil {
      * 因为基于Servlet的和其他的框架例如vertx的获取方式不一样
      * @author xiongshiyan at 2020/6/16 , contact me with email yanshixiong@126.com or phone 15208384257
      */
-    public interface IpInfoGetter {
+    @FunctionalInterface
+    public interface HeaderGetter {
         /**
          * 从请求中获取header
          * @see HttpServletRequest
@@ -60,28 +63,20 @@ public class IpUtil {
          * @return header
          */
         String getHeader(String headerKey);
-
+    }
+    @FunctionalInterface
+    public interface RemoteAddressGetter {
         /**
          * 获取远程地址
          * @see HttpServletRequest
          */
-        String getRemoteAddr();
+        String getRemoteAddress();
     }
 
     public static void main(String[] args) {
         HttpServletRequest request = null;
 
         //使用方式
-        String clientIp = IpUtil.getClientIp(new IpUtil.IpInfoGetter() {
-            @Override
-            public String getHeader(String headerKey) {
-                return request.getHeader(headerKey);
-            }
-
-            @Override
-            public String getRemoteAddr() {
-                return request.getRemoteAddr();
-            }
-        });
+        String clientIp = IpUtil.getClientIp(request::getHeader , null);
     }
 }
