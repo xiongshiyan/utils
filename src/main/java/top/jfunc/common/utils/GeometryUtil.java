@@ -76,7 +76,7 @@ public class GeometryUtil {
 
         int N = polygon.size();
         //如果点位于多边形的顶点或边上，也算做点在多边形内，直接返回true
-        boolean boundOrVertex = true;
+
         //cross points count of x
         int intersectCount = 0;
         //浮点类型计算时候与0比较时候的容差
@@ -92,7 +92,7 @@ public class GeometryUtil {
         for(int i = 1; i <= N; ++i){
             if(p.equals(p1)){
                 //p is an vertex
-                return boundOrVertex;
+                return true;
             }
 
             //right vertex
@@ -110,14 +110,14 @@ public class GeometryUtil {
                 if(p.y <= Math.max(p1.y, p2.y)){
                     //overlies on a horizontal ray
                     if(p1.x == p2.x && p.y >= Math.min(p1.y, p2.y)){
-                        return boundOrVertex;
+                        return true;
                     }
 
                     //ray is vertical
                     if(p1.y == p2.y){
                         //overlies on a vertical ray
                         if(p1.y == p.y){
-                            return boundOrVertex;
+                            return true;
                             //before ray
                         }else{
                             ++intersectCount;
@@ -128,7 +128,7 @@ public class GeometryUtil {
                         double xinters = (p.x - p1.x) * (p2.y - p1.y) / (p2.x - p1.x) + p1.y;
                         //overlies on a ray
                         if(Math.abs(p.y - xinters) < precision){
-                            return boundOrVertex;
+                            return true;
                         }
 
                         //before ray
@@ -156,12 +156,7 @@ public class GeometryUtil {
         }
 
         //偶数在多边形外
-        if(intersectCount % 2 == 0){
-            return false;
-            //奇数在多边形内
-        } else {
-            return true;
-        }
+        return intersectCount % 2 != 0;
     }
     private static void assertParams(Point2D.Double point, List<Point2D.Double> polygon) {
         if(null == point || null == polygon || polygon.size() < POLYGON_MIN_SIZE) {

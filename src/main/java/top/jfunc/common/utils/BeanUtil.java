@@ -29,10 +29,7 @@ public class BeanUtil{
         try{
             return (T)clazz.newInstance();
         }
-        catch(InstantiationException e){
-            throw new RuntimeException(e);
-        }
-        catch(IllegalAccessException e){
+        catch(Exception e){
             throw new RuntimeException(e);
         }
     }
@@ -69,7 +66,7 @@ public class BeanUtil{
             list.addAll(Arrays.stream(fields)
                     .collect(Collectors.toList()));
         }else {
-            list.addAll(Arrays.stream(fields).filter(predicate::test)
+            list.addAll(Arrays.stream(fields).filter(predicate)
                     .collect(Collectors.toList()));
         }
         parseAllFields(clazz.getSuperclass() , list , predicate);

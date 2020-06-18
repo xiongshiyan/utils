@@ -37,13 +37,13 @@ public class RadixUtil {
 
     /**
      * 字节数组转换为16进制字符串, 小写
-     * @param b 字节数字
+     * @param bs 字节数组
      * @return 十六进制字符串 小写
      */
-    public static String toHexLower(byte[] b){
+    public static String toHexLower(byte[] bs){
         StringBuilder hexString = new StringBuilder();
-        for(int i = 0; i < b.length; i++){
-            String plainText = Integer.toHexString(0xff & b[i]);
+        for (byte b : bs) {
+            String plainText = Integer.toHexString(0xff & b);
             if(plainText.length() < 2){
                 plainText = "0" + plainText;
             }
