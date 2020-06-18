@@ -24,7 +24,7 @@ public class IpUtil {
      HTTP_CLIENT_IP ：有些代理服务器会加上此请求头。
      */
     private static final String UN_KNOWN           = "unknown";
-    private static final String X_FORWARDED_FOR    = "x-forwarded-for";
+    private static final String X_FORWARDED_FOR    = "X-FORWARDED-FOR";
     private static final String[] PROXY_IP_HEADERS = {"X-Real-IP" , "Proxy-Client-IP" , "WL-Proxy-Client-IP" , "HTTP_CLIENT_IP" , "HTTP_X_FORWARDED_FOR"};
 
     public static String getClientIp(IpInfoGetter request) {
