@@ -15,7 +15,7 @@ public class EnvUtil {
     public static final String ENV_PRETEST = "pretest";
     public static final String ENV_TEST    = "test";
     public static final String ENV_DEV     = "dev";
-    private static final String KEY = "ENVSETTING";
+    private static final String KEY        = "ENVSETTING";
     /**
      * 获取当前环境
      * @return String

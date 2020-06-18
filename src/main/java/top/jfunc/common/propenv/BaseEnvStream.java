@@ -27,21 +27,25 @@ public abstract class BaseEnvStream {
         InputStream inputStream = null;
         if(ENV == null){
             logger.info("env = null , try to load " + fileName);
-            inputStream = loadInputStream(fileName);//给什么路径就从什么路径找
+            //给什么路径就从什么路径找
+            inputStream = loadInputStream(fileName);
             if(inputStream == null){
                 throw new IllegalArgumentException("Properties file not found : " + fileName );
             }
         }else {
+            //找${fileName}-${env}.ext
             String envFileName = FileUtil.getFileNameNoEx(fileName) + "-" + ENV + "." + FileUtil.getExtensionName(fileName);
             logger.info("env = " + ENV + " , try to load " + envFileName);
-            inputStream = loadInputStream(envFileName);//找${fileName}-${env}.ext
+            inputStream = loadInputStream(envFileName);
             if (inputStream == null) {
+                //找${env}/${fileName}.ext
                 String envDirName = ENV + File.separator + fileName;
                 logger.info("env = " + ENV + " , try to load " + envDirName);
-                inputStream = loadInputStream(envDirName);//找${env}/${fileName}.ext
+                inputStream = loadInputStream(envDirName);
                 if(inputStream == null){
+                    //给什么路径就从什么路径找
                     logger.info("env = " + ENV + " , try to load " + fileName);
-                    inputStream = loadInputStream(fileName);//给什么路径就从什么路径找
+                    inputStream = loadInputStream(fileName);
                     if(inputStream == null){
                         throw new IllegalArgumentException("Properties file not found : " + fileName + ", and " + envFileName + ",and " + envDirName);
                     }

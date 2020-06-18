@@ -8,7 +8,6 @@ import top.jfunc.common.utils.*;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.*;
@@ -22,7 +21,7 @@ import java.util.concurrent.*;
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class EventInitializer {
-    private static final Logger                                 log         = LoggerFactory.getLogger(EventInitializer.class);
+    private static final Logger                                 logger      = LoggerFactory.getLogger(EventInitializer.class);
 
     /** 线程池 */
     private static ExecutorService                              pool        = null;
@@ -115,7 +114,7 @@ public class EventInitializer {
         /**既可以用注解Listener，又可以实现ListenerAtrr*/
         Set<Class<?>> clazzSet = ClassUtil.scanPackageBySuper(scanPackage, scanJar, ApplicationListener.class);
         if(clazzSet.isEmpty()){
-            log.info("annotation Listener is empty");
+            logger.info("annotation Listener is empty");
         }
 
         // 装载所有 {@code ApplicationListener} 的子类
@@ -128,7 +127,7 @@ public class EventInitializer {
             }
         }
         if(listeners.isEmpty()){
-            log.error("Listener is empty! Please check @Listener is right? or invoke addListener()");
+            logger.error("Listener is empty! Please check @Listener is right? or invoke addListener()");
             return;
         }
 
@@ -161,29 +160,29 @@ public class EventInitializer {
         }
         StringBuilder builder = new StringBuilder("一共有 ").append(listeners.size()).append(" 个监听器:\r\n");
         listeners.forEach(listener -> builder.append(listener).append("\r\n"));
-        log.info(builder.toString());
+        logger.info(builder.toString());
     }
 
     /**
      * 对所有的监听器进行排序
      */
     private void sortListeners(List<ApplicationListener> listeners){
-        Collections.sort(listeners, (l1,l2)->{
+        listeners.sort((l1, l2) -> {
             Class l1Class = l1.getClass();
             Class l2Class = l2.getClass();
             int x = Integer.MAX_VALUE;
             int y = Integer.MAX_VALUE;
-            if(l1Class.isAnnotationPresent(Listener.class)){
-                x = ((Listener)(l1Class.getAnnotation(Listener.class))).order();
-            }else if(l1 instanceof ListenerAttr){
+            if (l1Class.isAnnotationPresent(Listener.class)) {
+                x = ((Listener) (l1Class.getAnnotation(Listener.class))).order();
+            } else if (l1 instanceof ListenerAttr) {
                 x = ((ListenerAttr) l1).getOrder();
             }
-            if(l2Class.isAnnotationPresent(Listener.class)){
-                y = ((Listener)(l2Class.getAnnotation(Listener.class))).order();
-            }else if(l2 instanceof ListenerAttr){
+            if (l2Class.isAnnotationPresent(Listener.class)) {
+                y = ((Listener) (l2Class.getAnnotation(Listener.class))).order();
+            } else if (l2 instanceof ListenerAttr) {
                 y = ((ListenerAttr) l2).getOrder();
             }
-            return Integer.compare(x,y);
+            return Integer.compare(x, y);
         });
     }
 

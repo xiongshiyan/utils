@@ -1,6 +1,7 @@
 package top.jfunc.common.servlet;
 
 import top.jfunc.common.utils.CharsetUtil;
+import top.jfunc.common.utils.StrUtil;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -152,7 +153,6 @@ public final class CookieUtils {
             cookie.setPath("/");
             response.addCookie(cookie);
         } catch (Exception e) {
-        	 e.printStackTrace();
         }
     }
 
@@ -193,7 +193,7 @@ public final class CookieUtils {
         String domainName = null;
 
         String serverName = request.getRequestURL().toString();
-        if (serverName == null || "".equals(serverName)) {
+        if (StrUtil.isEmpty(serverName)) {
             domainName = "";
         } else {
             serverName = serverName.toLowerCase();
