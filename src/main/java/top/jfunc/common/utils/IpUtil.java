@@ -27,8 +27,14 @@ public class IpUtil {
     private static final String X_FORWARDED_FOR    = "X-FORWARDED-FOR";
     private static final String[] PROXY_IP_HEADERS = {"X-Real-IP" , "Proxy-Client-IP" , "WL-Proxy-Client-IP" , "HTTP_CLIENT_IP" , "HTTP_X_FORWARDED_FOR"};
 
-    public static String getClientIp(HeaderGetter request , RemoteAddressGetter remoteAddressGetter) {
-        String ip = request.getHeader(X_FORWARDED_FOR);
+    /**
+     * 获取客户端真实IP
+     * @param headerGetter 提供获取请求中header的方法
+     * @param remoteAddressGetter 提供获取请求中远程地址的方法，可以为空，就忽略
+     * @return 客户端IP
+     */
+    public static String getClientIp(HeaderGetter headerGetter , RemoteAddressGetter remoteAddressGetter) {
+        String ip = headerGetter.getHeader(X_FORWARDED_FOR);
         if (StrUtil.isNotEmpty(ip) && !UN_KNOWN.equalsIgnoreCase(ip)) {
             // 多次反向代理后会有多个ip值，第一个ip才是真实ip
             if( ip.contains(StrUtil.COMMA) ){
@@ -38,7 +44,7 @@ public class IpUtil {
 
         for (String proxyIpHeader : PROXY_IP_HEADERS) {
             if (StrUtil.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
-                ip = request.getHeader(proxyIpHeader);
+                ip = headerGetter.getHeader(proxyIpHeader);
             }
         }
 
