@@ -21,9 +21,7 @@ public class MapInfoHolder<K,V> extends InfoHolder<Map<K,V>> {
      * @param value value
      */
     public void add(K key ,V value){
-        Map<K, V> map = holder.get();
-        map.put(key,value);
-        //holder.set(map);
+        holder.get().put(key,value);
     }
 
     /**
@@ -31,20 +29,16 @@ public class MapInfoHolder<K,V> extends InfoHolder<Map<K,V>> {
      * @param key key
      */
     public V get(K key){
-        Map<K, V> map = holder.get();
-        return map.get(key);
+        return holder.get().get(key);
     }
 
     public void remove(K key){
-        Map<K, V> map = holder.get();
-        map.remove(key);
+        holder.get().remove(key);
     }
 
     @Override
     public void clear(){
-        Map<K, V> map = holder.get();
-        map.clear();
-
+        holder.get().clear();
         super.clear();
     }
 }
