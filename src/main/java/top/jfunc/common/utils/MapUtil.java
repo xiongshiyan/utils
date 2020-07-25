@@ -71,4 +71,15 @@ public class MapUtil {
             return first;
         }
     }
+
+    /**
+     * https://www.cnblogs.com/liumz0323/p/12145393.html
+     * @param cap 事先知道的map会装这么多个值
+     * @return map的初始size
+     */
+    public static int bestMapSize(int cap){
+        //因为默认因子就是0.75
+        return cap * 4 /3 + 1;
+    }
+
 }
