@@ -20,7 +20,7 @@ public class DatetimeUtil {
     private static final Object LOCK_OBJ = new Object();
 
     /** 存放不同的日期模板格式的sdf的Map */
-    private static Map<String, ThreadLocal<SimpleDateFormat>> sdfMap = new HashMap<String, ThreadLocal<SimpleDateFormat>>();
+    private static Map<String, ThreadLocal<SimpleDateFormat>> sdfMap = new HashMap<>();
 
     /**
      * 返回一个ThreadLocal的sdf,每个线程只会new一次sdf

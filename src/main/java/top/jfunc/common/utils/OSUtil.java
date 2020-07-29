@@ -19,7 +19,7 @@ public class OSUtil {
     }  
 
     public static boolean isMacOS(){  
-        return OS.contains("mac")&&OS.indexOf("os")>0&&OS.indexOf("x")<0;
+        return OS.contains("mac")&&OS.indexOf("os")>0&& !OS.contains("x");
     }  
 
     public static boolean isMacOSX(){  

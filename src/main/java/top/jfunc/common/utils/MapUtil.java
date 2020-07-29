@@ -79,7 +79,7 @@ public class MapUtil {
      */
     public static int bestMapSize(int cap){
         //因为默认因子就是0.75
-        return cap * 4 /3 + 1;
+        return cap * 4 / 3 + 1;
     }
 
 }

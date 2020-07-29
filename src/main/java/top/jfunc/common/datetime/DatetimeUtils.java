@@ -1,6 +1,8 @@
 package top.jfunc.common.datetime;
 
 
+import top.jfunc.common.utils.StrUtil;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,12 +43,10 @@ public class DatetimeUtils {
      */
     public static String toStr(Date date, String format) {
         SimpleDateFormat sdf = null;
-        if (null != format && !"".equals(format)) {
-            sdf = new SimpleDateFormat(format);
-            return sdf.format(date);
+        if (StrUtil.isNotEmpty(format)) {
+            return new SimpleDateFormat(format).format(date);
         } else {
-            sdf = new SimpleDateFormat(SDF_DATETIME);
-            return sdf.format(date);
+            return new SimpleDateFormat(SDF_DATETIME).format(date);
         }
     }
 
@@ -58,7 +58,7 @@ public class DatetimeUtils {
      */
     public static Date toDate(String dateStr, String pattern) {
         try {
-            if (null != pattern && !"".equals(pattern)) {
+            if (StrUtil.isNotEmpty(pattern)) {
                 return new SimpleDateFormat(pattern).parse(dateStr);
             } else {
                 return new SimpleDateFormat(SDF_DATETIME).parse(dateStr);
