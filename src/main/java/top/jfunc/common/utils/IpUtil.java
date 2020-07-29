@@ -56,20 +56,6 @@ public class IpUtil {
         return ip;
     }
 
-    /**
-     * 因为基于Servlet的和其他的框架例如vertx的获取方式不一样
-     * @author xiongshiyan at 2020/6/16 , contact me with email yanshixiong@126.com or phone 15208384257
-     */
-    @FunctionalInterface
-    public interface HeaderGetter {
-        /**
-         * 从请求中获取header
-         * @see HttpServletRequest
-         * @param headerKey headerKey
-         * @return header
-         */
-        String getHeader(String headerKey);
-    }
     @FunctionalInterface
     public interface RemoteAddressGetter {
         /**
@@ -77,12 +63,5 @@ public class IpUtil {
          * @see HttpServletRequest
          */
         String getRemoteAddress();
-    }
-
-    public static void main(String[] args) {
-        HttpServletRequest request = null;
-
-        //使用方式
-        String clientIp = IpUtil.getClientIp(request::getHeader , null);
     }
 }
