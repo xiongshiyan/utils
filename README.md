@@ -6,7 +6,7 @@
 ### 使用方式
 下载本项目，gradle clean build得到的jar包引入工程即可。
 
-或者使用gradle或者maven引入，最新为utils:1.8.3.5
+或者使用gradle或者maven引入，最新为utils:1.8.3.6
 
 ```gradle
 compile ("top.jfunc.common:utils:${version}")
