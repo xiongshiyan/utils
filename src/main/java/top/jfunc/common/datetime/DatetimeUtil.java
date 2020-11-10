@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author 熊诗言 2017/12/29
  * 获取线程安全的SimpleDateFormat的Date工具类，根据pattern缓存ThreadLocal<SimpleDateFormat>
+ * @author 熊诗言 2017/12/29
  */
 public class DatetimeUtil {
     private static final Logger logger = LoggerFactory.getLogger(DatetimeUtil.class);
