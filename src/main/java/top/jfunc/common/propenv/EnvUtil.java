@@ -2,6 +2,7 @@ package top.jfunc.common.propenv;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import top.jfunc.common.utils.StrUtil;
 
 /**
  * 获取当前环境变量的工具类
@@ -31,7 +32,7 @@ public class EnvUtil {
     public static  String env(String envKey){
         String env = System.getProperty(envKey);
         logger.debug(env);
-        if(null == env || "".equals(env)){
+        if(StrUtil.isEmpty(env)){
             env = System.getenv(envKey);
         }
         logger.debug(env);
