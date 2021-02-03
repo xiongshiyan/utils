@@ -2,6 +2,7 @@ package top.jfunc.common.propenv;
 
 import top.jfunc.common.utils.CharsetUtil;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,6 +64,14 @@ public class PropertiesUtils {
             PropertiesUtils.prop = null;
         }
         return previous;
+    }
+
+    /**
+     * 更根本的方法，传入inputStream即可
+     * @see BaseEnvStream#loadEnvInputStream(String)
+     */
+    public static Prop load(InputStream inputStream, String encoding) {
+        return new Prop(inputStream, encoding);
     }
 
     public static void clear() {

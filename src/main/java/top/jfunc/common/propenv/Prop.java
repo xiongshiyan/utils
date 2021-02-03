@@ -23,7 +23,6 @@ public class Prop{
         public Prop(String fileName, String encoding) {
             BaseEnvStream envProp = EnvStreamFactory.getEnvStream(EnvStreamFactory.ENV_STREAM_KIND);
             try(InputStream stream = envProp.loadEnvInputStream(fileName)) {
-                this.properties = null;
                 this.properties = new Properties();
                 InputStreamReader   reader = new InputStreamReader(stream, encoding);
                 this.properties.load(reader);
@@ -32,6 +31,20 @@ public class Prop{
                 throw new RuntimeException("Error loading properties file.", var12);
             }
 
+        }
+        public Prop(InputStream inputStream, String encoding) {
+            try {
+                InputStreamReader reader = new InputStreamReader(inputStream, encoding);
+                this.properties = new Properties();
+                this.properties.load(reader);
+                reader.close();
+            } catch (IOException var12) {
+                throw new RuntimeException("Error loading properties file.", var12);
+            }
+
+        }
+        public Prop(InputStream inputStream) {
+            this(inputStream, CharsetUtil.UTF_8);
         }
 
         public String get(String key) {
