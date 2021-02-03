@@ -1,5 +1,7 @@
 package top.jfunc.common.thread.conpro;
 
+import top.jfunc.common.utils.StrUtil;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
@@ -14,7 +16,7 @@ public class QueueHolder {
         blockingQueueMap.put(pipelineName , blockingQueue);
     }
     public static <T> BlockingQueue<T> getBlockingQueue(String pipelineName) {
-        if(null == pipelineName || "".equals(pipelineName)){
+        if(StrUtil.isEmpty(pipelineName)){
             throw new IllegalArgumentException(" pipelineName 不能为空 ");
         }
         BlockingQueue blockingQueue = blockingQueueMap.get(pipelineName);

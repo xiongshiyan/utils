@@ -6,7 +6,7 @@ package top.jfunc.common.response;
  */
 public class ResponseData {
     private int resultCode;
-    private String message = "OK";
+    private String message;
     private Object data;
 
 
@@ -29,7 +29,7 @@ public class ResponseData {
         return new ResponseData(resultCode, message, data);
     }
     public static ResponseData build(int resultCode, String message){
-        return new ResponseData(resultCode);
+        return new ResponseData(resultCode, message);
     }
     public static ResponseData build(int resultCode){
         return new ResponseData(resultCode);

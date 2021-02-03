@@ -114,7 +114,7 @@ public class EventInitializer {
         /**既可以用注解Listener，又可以实现ListenerAtrr*/
         Set<Class<?>> clazzSet = ClassUtil.scanPackageBySuper(scanPackage, scanJar, ApplicationListener.class);
         if(clazzSet.isEmpty()){
-            logger.info("annotation Listener is empty");
+            logger.warn("annotation Listener is empty");
         }
 
         // 装载所有 {@code ApplicationListener} 的子类

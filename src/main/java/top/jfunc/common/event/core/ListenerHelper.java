@@ -11,7 +11,7 @@ public class ListenerHelper{
 
     public final ApplicationListener listener;
 
-    public final boolean             enableAsync;
+    public final boolean enableAsync;
 
     public ListenerHelper(ApplicationListener listener, boolean enableAsync){
         this.listener = listener;

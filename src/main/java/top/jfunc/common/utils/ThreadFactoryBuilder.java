@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 /**
- * 抄袭google-guava的factorybuilder
+ * 抄袭google-guava的FactoryBuilder
  * @author unascribed
  */
 public final class ThreadFactoryBuilder {
@@ -23,7 +23,6 @@ public final class ThreadFactoryBuilder {
     }
 
     public ThreadFactoryBuilder setNameFormat(String nameFormat) {
-        //String.format(nameFormat, Integer.valueOf(0));
         this.nameFormat = nameFormat;
         return this;
     }
@@ -59,8 +58,8 @@ public final class ThreadFactoryBuilder {
         final UncaughtExceptionHandler uncaughtExceptionHandler = builder.uncaughtExceptionHandler;
         final ThreadFactory backingThreadFactory = builder.backingThreadFactory != null ? builder.backingThreadFactory : Executors.defaultThreadFactory();
         final AtomicLong count = nameFormat != null ? new AtomicLong(0L) : null;
-        return (runnable)->{
-                Thread thread = backingThreadFactory.newThread(runnable);
+        return r->{
+                Thread thread = backingThreadFactory.newThread(r);
                 if (nameFormat != null) {
                     thread.setName(String.format(nameFormat, count.getAndIncrement()));
                 }
