@@ -1,5 +1,8 @@
 package top.jfunc.common.propenv;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * EnvStream工厂
  * @author 熊诗言
@@ -12,6 +15,12 @@ public class EnvStreamFactory {
      */
     public static String ENV_STREAM_KIND = ENV_STREAM_KIND_CLASSPATH;
 
+    private static final Map<String, BaseEnvStream> CACHE = new HashMap<>();
+    static {
+        CACHE.put(ENV_STREAM_KIND_CLASSPATH, new ClasspathEnvStream());
+        CACHE.put(ENV_STREAM_KIND_FILE, new FileEnvStream());
+    }
+
     /**
      * 如果要改变默认的加载方式Classpath，请调用该方法
      * @param kind 哪种加载方式
@@ -22,16 +31,16 @@ public class EnvStreamFactory {
         ENV_STREAM_KIND = kind;
     }
 
+
+    public static void put(String kind, BaseEnvStream baseEnvStream){
+        CACHE.put(kind, baseEnvStream);
+    }
+
     /**
      * 这是一个包级方法，在Prop中调用
-     * @param kind 哪种加载方式
      * @return BaseEnvStream
      */
     static BaseEnvStream getEnvStream(String kind){
-        switch (kind){
-            case ENV_STREAM_KIND_FILE:{return new FileEnvStream();}
-            case ENV_STREAM_KIND_CLASSPATH:{return new ClasspathEnvStream();}
-            default:throw new RuntimeException(kind + " of env stream is not supported!");
-        }
+        return CACHE.get(kind);
     }
 }

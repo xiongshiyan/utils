@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.InputStream;
 
 /**
- * 根据环境变量env加载文件(-Denv=test)，从类路径下或者给定文件路径寻找，首先寻找${fileName}-${env}.ext，没找到就寻找找${env}/${fileName}.ext，再没找到就找找${env}/${fileName}.ext。
+ * 根据环境变量env加载文件(-Denv=test)，从类路径下或者给定文件路径寻找，首先寻找${fileName}-${env}.ext，没找到就寻找找${env}/${fileName}.ext
  * 没有设置env环境变量的时候，给什么路径就从什么路径找
  * @author 熊诗言
  * @see ClasspathEnvStream
