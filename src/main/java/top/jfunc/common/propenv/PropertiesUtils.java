@@ -73,6 +73,9 @@ public class PropertiesUtils {
     public static Prop load(InputStream inputStream, String encoding) {
         return new Prop(inputStream, encoding);
     }
+    public static Prop load(InputStream inputStream) {
+        return new Prop(inputStream, CharsetUtil.UTF_8);
+    }
 
     public static void clear() {
         prop = null;
